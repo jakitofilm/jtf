@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+	<h1>{{ object }}</h1>
+
+	{% for role in object.cast.all %}
+		<a href="{{ role.actor.get_absolute_url }}">{{ role.actor }}</a> {% trans 'as' %} {{ role.role }}
+	{% endfor %}
+{% endblock %}

@@ -1,0 +1,21 @@
+{% load i18n %}{% comment %}
+
+		Include this block at the bottom of the object-tools:
+
+		{% block object-tools %}
+			{{ block.super }}
+			{% if language_tabs %}{% include "admin/parler/language_tabs.html" %}{% endif %}
+		{% endblock %}
+
+{% endcomment %}
+{% if language_tabs %}
+<div class="suit-tab suit-tab-general">
+	<ul class="nav nav-tabs nav-tabs-suit" data-tab-prefix="tab-content">
+		{% for url,name,code,status in language_tabs %}
+		{# {% for lang_code, lang_name in language_tabs %} #}
+		<li class="{% ifequal status 'current' %}active{% else %}{% if not lang_code in filled_languages %} notfilled{% endif %}{% endifequal %}"><a href="{{ url }}">{{ name }}</a></li>
+		{% endfor %}
+	</ul>
+</div>
+{% endif %}
+

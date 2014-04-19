@@ -1,0 +1,42 @@
+{% load i18n static %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>{% block head_title %}!!!WRONG TITLE!!!{% endblock %} | Jaki to film?</title>
+		<meta name="description" content="Quiz filmowy dla kinomaniaków" />
+		<meta name="keywords" content="quiz, film, kinomaniacy" />
+
+		<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Open+Sans:300italic,400,300,700' rel='stylesheet' type='text/css'>
+		{# {% include '_semantic.html' %} #}
+		<link rel="stylesheet" type="text/css" href="{% static 'css/semantic.min.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+
+
+	</head>
+	<body>
+		<div class="ui inverted page grid masthead segment">
+			<div class="column">
+				<div class="inverted secondary pointing ui menu">
+				<div class="header item">Jaki to film?</div>
+				<div class="right menu">
+					<a class="item">{% trans 'Persons' %}</a>
+					<a class="item">{% trans 'Forum' %}</a>
+				</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="ui page grid">
+			<div class="twelve wide column">
+				<section class="column">{% block content %}{% endblock %}</section>
+			</div>
+		</div>
+
+		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
+		<script src="{% static 'js/semantic.min.js' %}"></script>
+		<script src="{% static 'js/main.js' %}"></script>
+	</body>
+</html>

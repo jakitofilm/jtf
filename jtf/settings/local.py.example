@@ -1,0 +1,45 @@
+from jtf.settings import *   # pylint: disable=W0614,W0401
+
+DEBUG = True
+TEMPLATE_DEBUG = DEBUG
+
+ADMINS = (
+    ('You', 'your@email'),
+)
+MANAGERS = ADMINS
+
+ROOT_URLCONF = 'jtf.urls.local'
+
+MIDDLEWARE_CLASSES += (
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+)
+
+INSTALLED_APPS += (
+    'debug_toolbar',
+)
+
+DEBUG_TOOLBAR_PATCH_SETTINGS = False
+
+DEBUG_TOOLBAR_CONFIG = {
+    'INTERCEPT_REDIRECTS': False,
+}
+
+INTERNAL_IPS = ['127.0.0.1', ]
+
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": "jtf",
+        "USER": "postgres",
+        "PASSWORD": "",
+        "HOST": "",
+        "PORT": "",
+    },
+}
+
+TEMPLATE_LOADERS = (
+    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.app_directories.Loader',
+)
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
