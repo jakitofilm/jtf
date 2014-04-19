@@ -17,4 +17,4 @@ requests-oauthlib==0.4.0
 six==1.6.1
 sorl-thumbnail==11.12.1b
 wsgiref==0.1.2
-Unicode==0.04.14
+Unidecode==0.04.14
