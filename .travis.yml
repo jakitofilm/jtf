@@ -4,7 +4,7 @@ python:
   - 2.6
 
 install:
-  - pip install -r requirements/base.txt --use-mirrors
+  - pip install -r requirements/dev.txt --use-mirrors
 
 script:
   - python manage.py test --settings=jtf.settings.test
