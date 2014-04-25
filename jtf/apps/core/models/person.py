@@ -23,10 +23,10 @@ class Person(MovieObject):
     objects = PersonManager()
 
     class Meta:
+        app_label = 'core'
+        ordering = ('last_name',)
         verbose_name = _('person')
         verbose_name_plural = _('people')
-        ordering = ('last_name',)
-        app_label = 'core'
 
     def __unicode__(self):
         return self.fullname
