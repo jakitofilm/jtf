@@ -4,7 +4,7 @@ from django.test import TestCase
 from parler.utils.context import smart_override, switch_language
 
 from . import PersonTestMixin, MovieTestMixin
-from ..models import Person, Movie
+from ..models import Person, Movie, Image
 
 
 class TestPerson(PersonTestMixin, TestCase):
@@ -92,3 +92,14 @@ class FetchFromApi(TestCase):
 
         self.assertEqual(movie.directors.count(), 1)
         self.assertEqual(movie.directors.all()[0].fullname, u'John Woo')
+
+        with switch_language(movie, 'en'):
+            self.assertTrue(movie.cover)
+
+
+class ImageMedia(TestCase):
+
+    def test_fetch_from_url(self):
+        const_url = 'http://lorempixel.com/400/200/sports/'
+        image = Image.fetch_from_url(const_url)
+        # self.assertEqual(len(image.file), 2163)

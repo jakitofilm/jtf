@@ -28,7 +28,6 @@ APPEND_SLASH = True
 
 JTF_APPS = [
     'jtf.apps.core',
-    'jtf.apps.media',
 ]
 
 EXTENDED_EXTERNAL_APPS = [
@@ -43,7 +42,7 @@ EXTERNAL_APPS = [
     'polymorphic',
     'reversion',
     'sorl.thumbnail',
-    # 'south',
+    'south',
 ]
 
 DJANGO_APS = [
@@ -146,6 +145,8 @@ PARLER_LANGUAGES = {
         {'code': 'es'},
     ),
     'default': {
-        #'fallback': 'en',
+        'fallback': 'pl',
     }
 }
+
+JTF_WORKER_API_HOST = 'jtf_worker.eu01.aws.af.cm'

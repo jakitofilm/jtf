@@ -1,8 +1,4 @@
 # -*- coding: utf-8 -*-
-import requests
-import json
-
-from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.translation import ugettext as _
@@ -12,6 +8,7 @@ from parler.utils.context import smart_override
 from positions import PositionField
 
 from .base import MovieObject
+from .media import Image
 from .person import Person
 from .managers import MovieManager
 from jtf.apps.core.fields import PolishAutoSlugField
@@ -21,9 +18,10 @@ from jtf.apps.core.api_worker.decorators import fetch_from_api_worker
 class Movie(TranslatableModel, MovieObject):
     translations = TranslatedFields(
         title=models.CharField(_('title'), max_length=100),
-        slug=PolishAutoSlugField(populate_from=['title'])
+        slug=PolishAutoSlugField(populate_from=['title']),
     )
-    year = models.PositiveSmallIntegerField(_('year'))
+    cover = models.OneToOneField(Image, null=True, related_name='movie')
+    year = models.PositiveSmallIntegerField(_('year'), blank=True, default=0)
     directors = models.ManyToManyField(Person, related_name='directed_movies')
     actors = models.ManyToManyField(
         Person, related_name='appeared_in_movies',
@@ -33,9 +31,14 @@ class Movie(TranslatableModel, MovieObject):
 
     class Meta:
         app_label = 'core'
+        verbose_name = _('movie')
+        verbose_name_plural = _('movies')
 
     def __unicode__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('movie_detail', kwargs={'slug': self.slug})
 
     @property
     def titles(self):
@@ -46,8 +49,10 @@ class Movie(TranslatableModel, MovieObject):
     @fetch_from_api_worker('imdb/movie/{0}')
     def create_from_imdb(cls, imdb_id):
         with smart_override('en'):
-            movie = cls._default_manager.create(
-                title=api_result['title'], year=api_result['year'])
+            movie, _ = cls._default_manager.get_or_create(imdb_id=imdb_id)
+            movie.title = api_result['title']
+            movie.year = api_result['year']
+            movie.cover = Image.fetch_from_url(api_result['cover'])
 
         for lang, title in api_result['akas'].iteritems():
             movie.set_current_language(lang)
@@ -80,6 +85,8 @@ class Cast(TranslatableModel):
 
     class Meta:
         app_label = 'core'
+        verbose_name = _('cast')
+        verbose_name_plural = _('cast')
 
     def __unicode__(self):
         return u'{0} in {1}'.format(self.actor, self.movie)

@@ -25,17 +25,7 @@ PASSWORD_HASHERS = (
     'django.contrib.auth.hashers.MD5PasswordHasher',
 )
 
-JTF_WORKER_API_HOST = '127.0.0.1:5000'
-
-
-
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.postgresql_psycopg2",
-#         "NAME": "jtf_test",
-#         "USER": "postgres",
-#         "PASSWORD": "",
-#         "HOST": "",
-#         "PORT": "",
-#     },
-# }
+# quick dirty hack
+import socket
+if socket.gethostname() == 'laptop':
+    JTF_WORKER_API_HOST = '127.0.0.1:5000'

@@ -1,10 +1,10 @@
 from django.contrib import admin
-from django.forms.models import BaseInlineFormSet
 from django.utils.translation import ugettext_lazy as _
 
+from sorl.thumbnail.admin import AdminImageMixin
 from parler.admin import TranslatableAdmin
 
-from .models import Person, Movie, Cast
+from .models import Person, Movie, Cast, Image
 
 
 class PersonAdmin(admin.ModelAdmin):
@@ -33,7 +33,7 @@ class PersonAdmin(admin.ModelAdmin):
 admin.site.register(Person, PersonAdmin)
 
 
-class MovieAdmin(TranslatableAdmin):
+class MovieAdmin(TranslatableAdmin, AdminImageMixin):
     suit_form_tabs = (
         (_('general'), _('Titles')),
         (_('basic'), _('Basic information')),
@@ -49,7 +49,7 @@ class MovieAdmin(TranslatableAdmin):
         }),
         ("Contents", {
             'classes': ('suit-tab suit-tab-basic',),
-            'fields': ('imdb_id', 'tmdb_id', 'year',),
+            'fields': ('imdb_id', 'tmdb_id', 'year'),
         })
     )
 admin.site.register(Movie, MovieAdmin)
@@ -72,3 +72,9 @@ class CastAdmin(TranslatableAdmin):
 
     )
 admin.site.register(Cast, CastAdmin)
+
+
+class ImageAdmin(AdminImageMixin, admin.ModelAdmin):
+    list_display = ('file',)
+
+admin.site.register(Image, ImageAdmin)
